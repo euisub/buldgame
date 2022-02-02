@@ -40,6 +40,7 @@ let timeInterval;
 let energyInterval;
 const energyBarWidth = energyBar.offsetWidth;
 let imagechenged = false;
+let gameOverFlag = false;
 
 init()
 setTimeInterval()
@@ -126,6 +127,7 @@ function checkEnergyBox(energy){
 }
 
 //li 가 mosemove 좌표 범위 안에 있는지 check
+//javascipt로 좌표 가져오는 것을 못해서 jquery 사용
 function rangeSelect(x1, y1, x2, y2){
     const selector = ".playground ul li ul li";
     $(selector).each(function() {
@@ -201,6 +203,8 @@ function showGameOverText(){
     scoreText.innerText = `SCORE : ${scoreNumber}`;
     timeText.innerText = `TIME : ${time}s`;
     gameText.style.display = 'flex';
+
+    gameOverFlag = true;
 }
 //mousedown
 function mouseDownEvent(e){
@@ -241,6 +245,8 @@ function mouseUpEvent(e){
 
 //Event
 body.addEventListener("mousedown",(e)=>{
+    if(gameOverFlag) return;
+
     mouseDownEvent(e)
 })
 
@@ -251,7 +257,7 @@ body.addEventListener("mousemove",_.throttle(function (e){
 }, 100))
 
 
-body.addEventListener("mouseup",(e)=>{
+window.addEventListener("mouseup",(e)=>{
     mouseUpEvent(e)
 })
 
@@ -285,4 +291,6 @@ restartButton.addEventListener("click",()=>{
     scoreDisplay.innerText = "0";
     energyImg.src = "images/energy.png";
     energyImg.classList.remove("vibration");
+    gameOverFlag = false;
+
 })
