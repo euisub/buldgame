@@ -101,7 +101,8 @@ body {
 }
 
 .focus-on{
-    background: red;
+    /* background: red; */
+    border: 2px solid red !important;
 }
 
 .seized{
@@ -237,6 +238,8 @@ body {
     width: 30px;
     height: 30px;
     /* outline: 1px solid #ccc; */
+    border: 1px solid #ccc;
+    border-radius: 50%;
 }
 
 /* tab */

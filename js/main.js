@@ -236,9 +236,26 @@ function mouseMoveEvent(e){
     mouseFocus.style.left = focusObj.left+"px";
     mouseFocus.style.height = focusObj.height+"px";
     mouseFocus.style.top = focusObj.top+"px";
-    //범위안에 있는지 check
-    rangeSelect(focusObj.left,focusObj.top,wlSum,htSum);
+
+    setTimeout(()=>{
+        //범위안에 있는지 check
+        rangeSelect(focusObj.left,focusObj.top,wlSum,htSum);
+    },0)
 }
+
+function throttle(callback, limit = 100) {
+    let waiting = false
+    return function() {
+        if(!waiting) {
+            callback.apply(this, arguments)
+            waiting = true
+            setTimeout(() => {
+                waiting = false
+            }, limit)
+        }
+    }
+}
+
 //mouseup
 function mouseUpEvent(e){
     mouseFlag = false;
@@ -257,8 +274,9 @@ body.addEventListener("mousedown",(e)=>{
 })
 
 //mousemove는 메모리를 많이 잡아먹어서 throttle 라이브러리 사용
-body.addEventListener("mousemove",_.throttle(function (e){
+body.addEventListener("mousemove",throttle((e)=>{
     if(!mouseFlag) return false;
+    
     mouseMoveEvent(e)
 }, 100))
 
