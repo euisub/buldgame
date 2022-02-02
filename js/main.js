@@ -327,6 +327,8 @@ gamePlayBtn.addEventListener("click",()=>{
 
 // [모바일 : 터치 시작 내부 함수 - (주의) 클릭 이벤트와 겹칠 수 있음]
 function handleStart(evt) {
+    if(gameOverFlag) return;
+
     // body 스크롤 막음 [바디영역에서 스크롤있으면 터치 이벤트 안먹힙니다]
     BodyScrollDisAble();
 
@@ -341,7 +343,8 @@ function handleStart(evt) {
 
 // [모바일 : 터치 이동 내부 함수]
 function handleMove(evt) {
-
+    if(!mouseFlag) return;
+    
     // body 스크롤 막음 [바디영역에서 스크롤있으면 터치 이벤트 안먹힙니다]
     BodyScrollDisAble();
 
@@ -367,6 +370,7 @@ function handleMove(evt) {
 
 // [모바일 : 터치 종료 내부 함수] 
 function handleEnd(evt) {
+    
     // 바디 스크롤 허용 
     BodyScrollAble();
 
