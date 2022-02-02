@@ -343,8 +343,7 @@ function handleStart(evt) {
 
 // [모바일 : 터치 이동 내부 함수]
 function handleMove(evt) {
-    if(!mouseFlag) return;
-    
+    if(gameOverFlag) return;
     // body 스크롤 막음 [바디영역에서 스크롤있으면 터치 이벤트 안먹힙니다]
     BodyScrollDisAble();
 
@@ -379,7 +378,10 @@ function handleEnd(evt) {
     mouseFocus.style.width = "0px";
     mouseFocus.style.height = "0px";
     //범위안에 있는 값이 10인지 확인하는 함수
-    checkMatch()
+    setTimeout(()=>{
+        checkMatch()
+    },0)
+    
 };
 
 
