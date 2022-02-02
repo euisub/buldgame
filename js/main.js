@@ -242,7 +242,15 @@ function mouseMoveEvent(e){
         rangeSelect(focusObj.left,focusObj.top,wlSum,htSum);
     },0)
 }
-
+//mouseup
+function mouseUpEvent(e){
+    mouseFlag = false;
+    mouseFocus.style.display = "none";
+    mouseFocus.style.width = "0px";
+    mouseFocus.style.height = "0px";
+    //범위안에 있는 값이 10인지 확인하는 함수
+    checkMatch()
+}
 function throttle(callback, limit = 100) {
     let waiting = false
     return function() {
@@ -256,18 +264,7 @@ function throttle(callback, limit = 100) {
     }
 }
 
-//mouseup
-function mouseUpEvent(e){
-    mouseFlag = false;
-    mouseFocus.style.display = "none";
-    mouseFocus.style.width = "0px";
-    mouseFocus.style.height = "0px";
-    //범위안에 있는 값이 10인지 확인하는 함수
-    checkMatch()
-}
-
 //Event
-
 //=========pc===========================
 body.addEventListener("mousedown",(e)=>{
     if(gameOverFlag) return;
@@ -284,25 +281,6 @@ body.addEventListener("mousemove",throttle((e)=>{
 
 
 window.addEventListener("mouseup",(e)=>{
-    mouseUpEvent(e)
-})
-
-//=========mobile===========================
-body.addEventListener("touchstart",(e)=>{
-    if(gameOverFlag) return;
-
-    mouseDownEvent(e)
-})
-
-//mousemove는 메모리를 많이 잡아먹어서 throttle 라이브러리 사용
-body.addEventListener("touchmove",throttle((e)=>{
-    if(!mouseFlag) return false;
-    
-    mouseMoveEvent(e)
-}, 100))
-
-
-window.addEventListener("touchend",(e)=>{
     mouseUpEvent(e)
 })
 
@@ -340,9 +318,77 @@ restartButton.addEventListener("click",()=>{
 
 })
 
-
 //게임 시작
 gamePlayBtn.addEventListener("click",()=>{
     gamePlay.style.display = "none";
     gameStart()
 })
+
+
+// [모바일 : 터치 시작 내부 함수 - (주의) 클릭 이벤트와 겹칠 수 있음]
+function handleStart(evt) {
+    // body 스크롤 막음 [바디영역에서 스크롤있으면 터치 이벤트 안먹힙니다]
+    BodyScrollDisAble();
+
+    mouseFlag = true;
+    startX = evt.changedTouches[0].clientX;
+    startY = evt.changedTouches[0].clientY;
+    focusObj.width  = 0;
+    focusObj.height = 0;
+    mouseFocus.style.display = "flex";
+};
+
+
+// [모바일 : 터치 이동 내부 함수]
+function handleMove(evt) {
+
+    // body 스크롤 막음 [바디영역에서 스크롤있으면 터치 이벤트 안먹힙니다]
+    BodyScrollDisAble();
+
+    const x = evt.changedTouches[0].clientX;
+    const y = evt.changedTouches[0].clientY;
+    focusObj.width = Math.max(x - startX, startX - x);
+    focusObj.left  = Math.min(startX, x);
+    focusObj.height = Math.max(y - startY, startY - y);
+    focusObj.top = Math.min(startY, y); 
+    const wlSum = focusObj.width + focusObj.left;
+    const htSum = focusObj.height + focusObj.top;
+    mouseFocus.style.width = focusObj.width+"px";
+    mouseFocus.style.left = focusObj.left+"px";
+    mouseFocus.style.height = focusObj.height+"px";
+    mouseFocus.style.top = focusObj.top+"px";
+
+    setTimeout(()=>{
+        //범위안에 있는지 check
+        rangeSelect(focusObj.left,focusObj.top,wlSum,htSum);
+    },0)
+};
+
+
+// [모바일 : 터치 종료 내부 함수] 
+function handleEnd(evt) {
+    // 바디 스크롤 허용 
+    BodyScrollAble();
+
+    mouseFlag = false;
+    mouseFocus.style.display = "none";
+    mouseFocus.style.width = "0px";
+    mouseFocus.style.height = "0px";
+    //범위안에 있는 값이 10인지 확인하는 함수
+    checkMatch()
+};
+
+
+
+//=========mobile===========================
+body.addEventListener("touchstart",handleStart,false);
+body.addEventListener("touchmove",handleMove,false);
+body.addEventListener("touchend",handleEnd,false);
+
+/* [body 영역 스크롤 관리 부분] */
+function BodyScrollDisAble(){
+    document.body.style.overflow = "hidden"; //스크롤 막음
+};		
+function BodyScrollAble(){
+    document.body.style.overflow = "auto"; //스크롤 허용
+};
