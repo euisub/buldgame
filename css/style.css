@@ -11,12 +11,18 @@ ul{
 body {
     height : 100%;
     overflow : scroll;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
 }
 
 #audio{
+    position: relative;
     width: 100%;
     height: 30px;
     margin-top: 50px;
+    z-index: 30;
 }
 
 .wrapper{
@@ -27,6 +33,31 @@ body {
     background-image: url("../images/bg.png");
     background-size: cover;
     padding: 30px;
+}
+
+.game-play{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    left: 0;
+    top: 0;
+    color: #fff;
+    font-size: 50px;
+    z-index: 20;
+}
+
+.game-play > button{
+    padding: 0.5rem 1rem;
+    color:#fff;
+    background: salmon;
+    border:none;
+    cursor: pointer;
+    margin-top:10px;
 }
 
 .game-text {
@@ -42,7 +73,7 @@ body {
     top: 0;
     color: #fff;
     font-size: 50px;
-    z-index: 100;
+    z-index: 20;
 }
 
 .game-text > button{
@@ -117,7 +148,7 @@ body {
     background-image: url("../images/re_item.png");
     background-size: cover;
     cursor: pointer;
-    z-index: 99;
+    z-index: 10;
 }
 
 .energy-bar{

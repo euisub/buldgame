@@ -10,10 +10,13 @@ const restartButton = document.querySelector(".game-text > button")
 const scoreDisplay = document.querySelector(".score")
 const scoreText = document.querySelector(".score-text")
 const timeText = document.querySelector(".time-text")
+const gamePlay = document.querySelector(".game-play")
+const gamePlayBtn = document.querySelector(".game-play > button")
 
 //audio
 const audio = document.getElementById("audio");
 const audioPlay = document.getElementById("audio-play");
+const audioGameOver = document.getElementById("audio-gameover");
 
 audio.volume = 0.01;
 
@@ -23,7 +26,7 @@ const GAME_COLS = 10;
 
 //Variables
 let scoreNumber = 0;
-let duration  = 30;
+let duration  = 40;
 let mouseFlag = false;
 let startX;
 let startY;
@@ -42,9 +45,11 @@ const energyBarWidth = energyBar.offsetWidth;
 let imagechenged = false;
 let gameOverFlag = false;
 
-init()
-setTimeInterval()
-energyBarInterval()
+function gameStart(){
+    init()
+    setTimeInterval()
+    energyBarInterval()
+}
 
 function init(){
     for(let i = 0 ; i < GAME_ROWS ; i++){
@@ -66,13 +71,13 @@ function init(){
 }
 
 //효과음
-function audioPlayControll(){
-    audioPlay.play();
+function audioPlayControll(audioType){
+    audioType.play();
 
     setTimeout(()=>{
-        audioPlay.pause();
-        audioPlay.currentTime = 0;
-    },200)
+        audioType.pause();
+        audioType.currentTime = 0;
+    },1000)
 }
 
 //시간 ++
@@ -181,7 +186,7 @@ function checkMatch(){
         energyImg.src = "images/energy.png";
         energyImg.classList.remove("vibration");
         imagechenged = false;
-        audioPlayControll()
+        audioPlayControll(audioPlay)
     }else{
         resetSeleter()
     }
@@ -200,6 +205,7 @@ function resetSeleter(){
 
 //gameover
 function showGameOverText(){
+    audioPlayControll(audioGameOver)
     scoreText.innerText = `SCORE : ${scoreNumber}`;
     timeText.innerText = `TIME : ${time}s`;
     gameText.style.display = 'flex';
@@ -293,4 +299,11 @@ restartButton.addEventListener("click",()=>{
     energyImg.classList.remove("vibration");
     gameOverFlag = false;
 
+})
+
+
+//게임 시작
+gamePlayBtn.addEventListener("click",()=>{
+    gamePlay.style.display = "none";
+    gameStart()
 })
