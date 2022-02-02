@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전구게임</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="game-text">
+            <span>게임종료!!!</span>
+            <span class="score-text"></span>
+            <span class="time-text"></span>
+            <button>다시시작</button>
+        </div>
+        <div class="top-bar">
+            <ul class="top-nav">
+                <li>&nbsp;</li>
+                <li class="score">0</li>
+                <li class="reset-btn"></li>
+            </ul>
+        </div>
+        <div class="energy-bar">
+            <div class="energy-box">
+                <img src="images/energy.png" alt="score" class="energy">
+            </div>
+        </div>
+        <div class="game-frame">
+            <div class="playground">
+                <ul></ul>
+            </div>
+        </div>
+        <!-- 게임 BGM -->
+        <!-- <audio autoplay controls loop id="audio"> -->
+        <audio controls loop id="audio">
+            <!-- 후보 123 -->
+            <source src="audio/Friendly Dance - Nico Staf.mp3" type="audio/mp3">
+            <!-- <source src="audio/Spring Field - Godmode.mp3" type="audio/mp3"> -->
+            <!-- <source src="audio/The World's Fair - Godmode.mp3" type="audio/mp3"> -->
+        </audio>
+        <!-- 게임효과음 -->
+        <audio id="audio-play">
+            <source src="audio/Spring Field - Godmode.mp3" type="audio/mp3">
+        </audio>
+    </div>
+    <div class="mouse-focus"></div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="http://underscorejs.org/underscore.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
