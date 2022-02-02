@@ -43,9 +43,11 @@ let timeInterval;
 let energyInterval;
 const energyBarWidth = energyBar.offsetWidth;
 let imagechenged = false;
-let gameOverFlag = false;
+let gameOverFlag = true;
 
 function gameStart(){
+    gameOverFlag = false;
+
     init()
     setTimeInterval()
     energyBarInterval()
@@ -214,6 +216,8 @@ function showGameOverText(){
     gameText.style.display = 'flex';
 
     gameOverFlag = true;
+    //scroll 다시 가능하게 수정
+    BodyScrollAble()
 }
 //mousedown
 function mouseDownEvent(e){
