@@ -49,6 +49,9 @@ function gameStart(){
     init()
     setTimeInterval()
     energyBarInterval()
+    
+    //게임시작 중에는 scroll 안되게 막음
+    BodyScrollDisAble()
 }
 
 function init(){
@@ -302,20 +305,18 @@ restartButton.addEventListener("click",()=>{
     gameText.style.display = "none";
 
     //초기화 
-    init()
     scoreNumber = 0;
     time = 0;
     energyNumber = 0;
     duration = 20;
     mouseFlag = false;
     imagechenged = false;
-    setTimeInterval()
-    energyBarInterval()
     scoreDisplay.innerText = "0";
     energyImg.src = "images/energy.png";
     energyImg.classList.remove("vibration");
     gameOverFlag = false;
 
+    gameStart()
 })
 
 //게임 시작
@@ -329,9 +330,6 @@ gamePlayBtn.addEventListener("click",()=>{
 function handleStart(evt) {
     if(gameOverFlag) return;
 
-    // body 스크롤 막음 [바디영역에서 스크롤있으면 터치 이벤트 안먹힙니다]
-    BodyScrollDisAble();
-
     mouseFlag = true;
     startX = evt.changedTouches[0].clientX;
     startY = evt.changedTouches[0].clientY;
@@ -344,8 +342,6 @@ function handleStart(evt) {
 // [모바일 : 터치 이동 내부 함수]
 function handleMove(evt) {
     if(gameOverFlag) return;
-    // body 스크롤 막음 [바디영역에서 스크롤있으면 터치 이벤트 안먹힙니다]
-    BodyScrollDisAble();
 
     const x = evt.changedTouches[0].clientX;
     const y = evt.changedTouches[0].clientY;
@@ -369,9 +365,6 @@ function handleMove(evt) {
 
 // [모바일 : 터치 종료 내부 함수] 
 function handleEnd(evt) {
-    
-    // 바디 스크롤 허용 
-    BodyScrollAble();
 
     mouseFlag = false;
     mouseFocus.style.display = "none";
