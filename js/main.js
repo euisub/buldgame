@@ -267,6 +267,8 @@ function mouseUpEvent(e){
 }
 
 //Event
+
+//=========pc===========================
 body.addEventListener("mousedown",(e)=>{
     if(gameOverFlag) return;
 
@@ -282,6 +284,25 @@ body.addEventListener("mousemove",throttle((e)=>{
 
 
 window.addEventListener("mouseup",(e)=>{
+    mouseUpEvent(e)
+})
+
+//=========mobile===========================
+body.addEventListener("touchstart",(e)=>{
+    if(gameOverFlag) return;
+
+    mouseDownEvent(e)
+})
+
+//mousemove는 메모리를 많이 잡아먹어서 throttle 라이브러리 사용
+body.addEventListener("touchmove",throttle((e)=>{
+    if(!mouseFlag) return false;
+    
+    mouseMoveEvent(e)
+}, 100))
+
+
+window.addEventListener("touchend",(e)=>{
     mouseUpEvent(e)
 })
 
