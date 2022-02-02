@@ -386,8 +386,8 @@ body.addEventListener("touchend",handleEnd,false);
 
 /* [body 영역 스크롤 관리 부분] */
 function BodyScrollDisAble(){
-    document.body.style.overflow = "hidden"; //스크롤 막음
+    document.body.style.touchAction = "none"; //스크롤 막음
 };		
 function BodyScrollAble(){
-    document.body.style.overflow = "auto"; //스크롤 허용
+    document.body.style.touchAction = "auto"; //스크롤 허용
 };
