@@ -117,8 +117,10 @@ body {
     justify-content: center;
     width: 100%;
     height: 64px;
-    background-image: url("../images/top_bar.png");
-    background-size: cover;
+    /* background-image: url("../images/top_bar.png");
+    background-size: cover; */
+    background-color: #fff;
+    outline: 2px solid #01222e;
     padding: 10px;
     margin-bottom: 10px;
 }
@@ -164,18 +166,23 @@ body {
 }
 
 .energy-box{
+    display: flex;
     width:100%;
+    height: 100%;
     overflow: hidden;
     border-radius: 15%;
+    padding-right: 20px;
     pointer-events: none;
 }
 
 .energy{
     position: relative;
-    width:93%;
+    align-self: center;
+    border-radius: 5px;
+    width:100%;
     height: 8px;
-    object-fit: cover;
     left: 0;
+    background-color: rgb(255, 166, 0);
     pointer-events: none;
 }
 
@@ -208,14 +215,17 @@ body {
 .game-frame{
     width:100%;
     height: 545px;
-    background-image: url("../images/game_frame.png");
-    background-size: cover;
-    padding: 10px;
+    /* background-image: url("../images/game_frame.png");
+    background-size: cover; */
+    background-color: #77899a;
+    outline: 2px solid #01222e;
+    padding: 5px;
 }
 
 .playground{
     width: 100%;
     height: 100%;
+    overflow: hidden;
 }
 
 .playground > ul{
@@ -243,62 +253,167 @@ body {
     border-radius: 50%;
 }
 
-/* tab */
+@media screen and (max-width: 1023px) {
+    .wrapper{
+        width: 100%;
+        height: 100vh;
+        padding: 50px;
+    }
+    .game-play > button,.game-text > button{
+        padding: 1rem 2rem;
+    }
+    .energy-bar{
+        height: 40px;
+    }
+    .energy-box{
+        padding-right: 5vw;   
+    }
+    .energy{
+        height: 15px;
+        top: 0.5vw;
+    }
+    .game-frame{
+        height: calc(100vh - 25vh);
+    }
+    #audio{
+        margin-top: 20px; 
+    }
 
-.tab {
-	padding-top: 50px;
-	margin-bottom: 20px;
-	position: relative;
-	overflow: hidden;
-	background: #fff;
-	width: 70%;
-	margin: 0 auto;
-	font-family: 'Roboto', sans-serif;
-	line-height: 1.5;
-	font-weight: 300;
-	color: #888;
-	-webkit-font-smoothing: antialiased;
+    .playground > ul > li {
+        width: 100%;
+        height: 60px;
+    }
+
+    .playground > ul > li > ul > li{
+        width: 60px;
+        height: 60px;
+    }
 }
 
-.tabs {
-	display: table;
-	position: relative;
-	overflow: hidden;
-	margin: 0;
-	width: 100%;
+
+@media screen and (max-width: 823px) {
+    .wrapper{
+        width: 100%;
+        height: 100vh;
+        padding: 50px;
+    }
+    .game-play > button,.game-text > button{
+        padding: 1rem 2rem;
+    }
+    .energy-bar{
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: 26px;
+        padding-left: 2px;
+        overflow: hidden;
+    }
+    .energy-box{
+        padding-right: 5vw;   
+    }
+    .energy{
+        height: 15px;
+        top: 0.5vw;
+    }
+    .game-frame{
+        height: calc(100vh - 25vh);
+    }
+    #audio{
+        margin-top: 20px; 
+    }
+
+    .playground > ul > li {
+        width: 100%;
+        height: 45px;
+    }
+
+    .playground > ul > li > ul > li{
+        width: 45px;
+        height: 45px;
+    }
 }
 
+@media screen and (max-width: 767px) {
+    .wrapper{
+        width: 100%;
+        height: 100vh;
+        padding: 20px;
+    }
+    .game-play > button,.game-text > button{
+        padding: 1rem 2rem;
+    }
+    .energy-bar{
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: 26px;
+        padding-left: 2px;
+        overflow: hidden;
+    }
+    .energy-box{
+        padding-right: 7vw;   
+    }
+    .energy{
+        width:100%;
+        height: 8px;
+        top: 0;
+    }
+    .game-frame{
+        height: calc(100vh - 25vh);
+    }
+    #audio{
+        height: 20px;
+        margin-top: 10px; 
+    }
 
-.tabs li {
-    float: left;
-    line-height: 38px;
-    overflow: hidden;
-    padding: 0;
-    position: relative;
+    .playground > ul > li {
+        width: 100%;
+        height: 30px;
+    }
+
+    .playground > ul > li > ul > li{
+        width: 30px;
+        height: 30px;
+    }
 }
 
-.tabs a {
-    background-color: #eff0f2;
-    border-bottom: 1px solid #fff;
-    color: #888;
-    font-weight: 500;
-    display: block;
-    letter-spacing: 0;
-    outline: none;
-    padding: 0 20px;
-    text-decoration: none;
-    -webkit-transition: all 0.2s ease-in-out;
-    -moz-transition: all 0.2s ease-in-out;
-    transition: all 0.2s ease-in-out;
-    border-bottom: 2px solid blue;
-}
+@media screen and (max-width: 439px) {
+    .wrapper{
+        width: 100%;
+        height: 100vh;
+        padding: 20px;
+    }
+    .game-play > button,.game-text > button{
+        padding: 1rem 2rem;
+    }
+    .energy-bar{
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: 26px;
+        padding-left: 2px;
+        overflow: hidden;
+    }
+    .energy-box{
+        padding-right: 7vw;   
+    }
+    .energy{
+        width:100%;
+        height: 8px;
+        top: 0;
+    }
+    .game-frame{
+        height: calc(100vh - 25vh);
+    }
+    #audio{
+        height: 20px;
+        margin-top: 10px; 
+    }
 
-.tabs_item {
-	display: none;
-	padding: 30px 0;
-}
+    .playground > ul > li {
+        width: 100%;
+        height: 30px;
+    }
 
-.current a {
-	color: #fff;
-	background: blue;
+    .playground > ul > li > ul > li{
+        width: 30px;
+        height: 30px;
+    }
 }

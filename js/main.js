@@ -18,7 +18,7 @@ const audio = document.getElementById("audio");
 const audioPlay = document.getElementById("audio-play");
 const audioGameOver = document.getElementById("audio-gameover");
 
-audio.volume = 0.01;
+audio.volume = 0.1;
 
 //Setting 
 const GAME_ROWS = 14;
@@ -118,7 +118,8 @@ function energyBarInterval(){
 function setEnergyColor(energy){
     const energyAbs = Math.abs(energy);
     if( Math.floor(energyBarWidth / 2) -30 < energyAbs){
-        energyImg.src = "images/energy-red.png";
+        energyImg.style.backgroundColor = "red";
+        // energyImg.src = "images/energy-red.png";
         imagechenged = true;
         energyAnimation()
     }
@@ -188,7 +189,8 @@ function checkMatch(){
         })
         scoreDisplay.innerText = scoreNumber;
         energyNumber = 0;
-        energyImg.src = "images/energy.png";
+        // energyImg.src = "images/energy.png";
+        energyImg.style.backgroundColor = "rgb(255, 166, 0)";
         energyImg.classList.remove("vibration");
         imagechenged = false;
         audioPlayControll(audioPlay)
@@ -316,7 +318,8 @@ restartButton.addEventListener("click",()=>{
     mouseFlag = false;
     imagechenged = false;
     scoreDisplay.innerText = "0";
-    energyImg.src = "images/energy.png";
+    // energyImg.src = "images/energy.png";
+    energyImg.style.backgroundColor = "rgb(255, 166, 0)";
     energyImg.classList.remove("vibration");
     gameOverFlag = false;
 
