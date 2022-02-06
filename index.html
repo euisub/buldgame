@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
-    <title>전구게임</title>
+    <title>buldGame</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,17 +12,32 @@
     <div class="wrapper">
         <div class="game-play">
             <span>전구게임</span>
-            <button>GAME PLAY</button>
+            <div>
+                <button id="gamePlay">GAME PLAY</button>
+                <button id="rankView">RANK VIEW</button>
+            </div>
         </div>
         <div class="game-text">
             <span>게임종료!!!</span>
             <span class="score-text"></span>
             <span class="time-text"></span>
-            <button>다시시작</button>
+            <form action="php/rank.php" method="post">
+                <div class="rank-join">
+                        <p id="rankMsg">축하합니다!! 1등 입니다.</p>
+                        <span>이름을 입력 후 등록 버튼을 누르면 랭킹이 등록됩니다.</span>
+                        <div>
+                            <input type="text"/><button id="rankJoinBtn">등록</button>
+                        </div>                
+                </div>
+            </form>
+            <div>
+                <button id="gameRePlay">GAME PLAY</button>
+                <button id="rankReView">RANK VIEW</button>
+            </div>
         </div>
         <div class="top-bar">
             <ul class="top-nav">
-                <li>&nbsp;</li>
+                <li class="home">HOME</li>
                 <li class="score">0</li>
                 <li class="reset-btn"></li>
             </ul>
@@ -33,14 +48,29 @@
                 <!-- <img src="images/energy.png" alt="score" class="energy"> -->
             </div>
         </div>
+        <div class="rank-box">
+            <table class="renk-table">
+                <thead>
+                    <tr>
+                        <th width="15%">순위</th>
+                        <th width="25%">이름</th>
+                        <th width="20%">점수</th>
+                        <th width="15%">시간</th>
+                        <th width="25%">전구개수</th>
+                    </tr>
+                </thead>
+                <tbody id="rankTbody">
+                </tbody>
+            </table>
+        </div>
         <div class="game-frame">
             <div class="playground">
                 <ul></ul>
             </div>
         </div>
         <!-- 게임 BGM -->
-        <audio autoplay controls loop id="audio">
-        <!-- <audio controls loop id="audio"> -->
+        <!-- <audio autoplay controls loop id="audio"> -->
+        <audio controls loop id="audio">
             <!-- 후보 123 -->
             <source src="audio/Friendly Dance - Nico Staf.mp3" type="audio/mp3">
             <!-- <source src="audio/Spring Field - Godmode.mp3" type="audio/mp3"> -->

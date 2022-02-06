@@ -6,12 +6,17 @@ const energyImg = document.querySelector(".energy");
 const playground = document.querySelector(".playground > ul");
 const mouseFocus = document.querySelector(".mouse-focus");
 const gameText = document.querySelector(".game-text")
-const restartButton = document.querySelector(".game-text > button")
+const restartButton = document.getElementById("gameRePlay")
 const scoreDisplay = document.querySelector(".score")
 const scoreText = document.querySelector(".score-text")
 const timeText = document.querySelector(".time-text")
 const gamePlay = document.querySelector(".game-play")
-const gamePlayBtn = document.querySelector(".game-play > button")
+const gamePlayBtn = document.getElementById("gamePlay")
+const rankBox = document.querySelector(".rank-box")
+const gameFrame = document.querySelector(".game-frame")
+const rankViewBtn = document.getElementById("rankView")
+const rankReViewBtn = document.getElementById("rankReView")
+const homeBtn = document.querySelector(".home")
 
 //audio
 const audio = document.getElementById("audio");
@@ -47,7 +52,8 @@ let gameOverFlag = true;
 
 function gameStart(){
     gameOverFlag = false;
-
+    rankBox.style.display = "none";
+    gameFrame.style.display = "flex";
     init()
     setTimeInterval()
     energyBarInterval()
@@ -96,8 +102,8 @@ function setTimeInterval(){
 //시간이 지날수록 duration을 작게하여 어렵게 하는작업
 function setLevel(){
     if(duration > 2){
-        if(time % 10 === 0){
-            duration -= 2;
+        if(time % 20 === 0){
+            duration--;
             energyBarInterval()
         }
     }
@@ -272,6 +278,21 @@ function throttle(callback, limit = 100) {
         }
     }
 }
+//초기화
+function reSetBuldGame(){
+    //초기화 
+    scoreNumber = 0;
+    time = 0;
+    energyNumber = 0;
+    duration = 20;
+    mouseFlag = false;
+    imagechenged = false;
+    scoreDisplay.innerText = "0";
+    // energyImg.src = "images/energy.png";
+    energyImg.style.backgroundColor = "rgb(255, 166, 0)";
+    energyImg.classList.remove("vibration");
+    gameOverFlag = false;
+}
 
 //Event
 //=========pc===========================
@@ -310,26 +331,41 @@ restartButton.addEventListener("click",()=>{
     playground.innerHTML = "";
     gameText.style.display = "none";
 
-    //초기화 
-    scoreNumber = 0;
-    time = 0;
-    energyNumber = 0;
-    duration = 20;
-    mouseFlag = false;
-    imagechenged = false;
-    scoreDisplay.innerText = "0";
-    // energyImg.src = "images/energy.png";
-    energyImg.style.backgroundColor = "rgb(255, 166, 0)";
-    energyImg.classList.remove("vibration");
-    gameOverFlag = false;
-
+    reSetBuldGame()
     gameStart()
 })
 
 //게임 시작
 gamePlayBtn.addEventListener("click",()=>{
     gamePlay.style.display = "none";
+    reSetBuldGame()
     gameStart()
+})
+
+//home 버튼
+homeBtn.addEventListener("click", ()=>{
+    energyNumber = 0;
+    clearInterval(energyInterval);
+    clearInterval(timeInterval);
+
+    gamePlay.style.display = "flex";
+    gameText.style.display = "none";
+
+    playground.innerHTML = "";
+    gameFrame.style.display = "flex";
+    rankBox.style.display = "none";
+})
+
+rankViewBtn.addEventListener("click",()=>{
+    gamePlay.style.display = "none";
+    gameFrame.style.display = "none";
+    rankBox.style.display = "flex";
+})
+
+rankReViewBtn.addEventListener("click",()=>{
+    gameText.style.display = "none";
+    gameFrame.style.display = "none";
+    rankBox.style.display = "flex";
 })
 
 
