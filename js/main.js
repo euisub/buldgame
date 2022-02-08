@@ -123,7 +123,7 @@ function energyBarInterval(){
 //energy 의 color를 변경하여 얼마 안남았음을 알려줌
 function setEnergyColor(energy){
     const energyAbs = Math.abs(energy);
-    if( Math.floor(energyBarWidth / 2) -30 < energyAbs){
+    if( Math.floor(energyBarWidth / 2)  < energyAbs){
         energyImg.style.backgroundColor = "red";
         // energyImg.src = "images/energy-red.png";
         imagechenged = true;
@@ -136,7 +136,7 @@ function energyAnimation(){
 }
 //energybar가 끝나면 게임종료
 function checkEnergyBox(energy){
-    if((energyBarWidth + energy) < 30){
+    if((energyBarWidth + energy) < 20){
         clearInterval(energyInterval);
         clearInterval(timeInterval);
         showGameOverText();
@@ -201,7 +201,9 @@ function checkMatch(){
         imagechenged = false;
         audioPlayControll(audioPlay)
     }else{
-        resetSeleter()
+        setTimeout(()=>{
+            resetSeleter()
+        },0)
     }
 }
 //해당 범위의 합이 10이 아닌경우 다시 class 제거
@@ -266,7 +268,7 @@ function mouseUpEvent(e){
     //범위안에 있는 값이 10인지 확인하는 함수
     checkMatch()
 }
-function throttle(callback, limit = 100) {
+function throttle(callback, limit = 500) {
     let waiting = false
     return function() {
         if(!waiting) {
@@ -307,7 +309,7 @@ body.addEventListener("mousemove",throttle((e)=>{
     if(!mouseFlag) return false;
     
     mouseMoveEvent(e)
-}, 100))
+}, 0))
 
 
 window.addEventListener("mouseup",(e)=>{
