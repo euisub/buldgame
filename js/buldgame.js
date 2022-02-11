@@ -1,38 +1,51 @@
 //DOM
 const body  = document.querySelector(".wrapper");
-const resetBtn  = document.querySelector(".reset-btn");
-const energyBar = document.querySelector(".energy-bar");
-const energyImg = document.querySelector(".energy");
 const playground = document.querySelector(".playground > ul");
+const gameFrame = document.querySelector(".game-frame");
+const gamePlay = document.querySelector(".game-play");
+const playView = document.querySelector(".play-view");
+const settingView = document.querySelector(".setting-view");
+const gameOverView = document.querySelector(".gameover-view");
 const mouseFocus = document.querySelector(".mouse-focus");
-const gameText = document.querySelector(".game-text")
-const restartButton = document.getElementById("gameRePlay")
-const scoreDisplay = document.querySelector(".score")
-const scoreText = document.querySelector(".score-text")
-const timeText = document.querySelector(".time-text")
-const gamePlay = document.querySelector(".game-play")
-const gamePlayBtn = document.getElementById("gamePlay")
-const rankBox = document.querySelector(".rank-box")
-const gameFrame = document.querySelector(".game-frame")
-const rankViewBtn = document.getElementById("rankView")
-const rankReViewBtn = document.getElementById("rankReView")
-const homeBtn = document.querySelector(".home")
+const energy = document.querySelector(".energy");
+
+//button
+const gamePlayButton = document.querySelector(".play-button > img");
+const resetButton = document.querySelector(".reset-button > img");
+const homeWhiteButton = document.querySelector(".home-white-button > img");
+const homeButton = document.querySelector(".home-button > img");
+const setWhiteButton = document.querySelector(".set-white-button > img");
+const setButton = document.querySelector(".set-button > img");
+const bgmSetting = document.querySelector(".bgm-setting");
+const audioSetting = document.querySelector(".audio-setting");
+const vibrationSetting = document.querySelector(".vibration-setting");
+
+//text
+const timeText  = document.querySelector(".time");
+const scoreText = document.querySelector(".score");
+const overScoreText = document.querySelector(".over-score");
+const overTimeText  = document.querySelector(".over-time");
+const rankTitle = document.querySelector(".rank-title");
 
 //audio
+const bgm = document.getElementById("bgm");
 const audio = document.getElementById("audio");
-const audioPlay = document.getElementById("audio-play");
-const audioGameOver = document.getElementById("audio-gameover");
+const gameover = document.getElementById("gameover");
 
-audio.volume = 0.1;
+//rank
+const rankJoinView = document.querySelector(".rank-join-view");
 
 //Setting 
-const GAME_ROWS = 14;
-const GAME_COLS = 10;
+const GAME_ROWS = 10;
+const GAME_COLS = 20;
 
 //Variables
-let scoreNumber = 0;
 let duration  = 40;
-let mouseFlag = false;
+let energyNumber = 0;
+let score = 0;
+let time  = 0;
+let timeInterval;
+let energyInterval;
 let startX;
 let startY;
 let focusObj = {
@@ -42,27 +55,40 @@ let focusObj = {
     height : 0,
 }
 let succeseArr = [];
-let energyNumber = 0;
-let time = 0;
-let timeInterval;
-let energyInterval;
-const energyBarWidth = energyBar.offsetWidth;
-let imagechenged = false;
-let gameOverFlag = true;
+let buldCount = 0;
+let gameOverFlag = false;
+let energyVibration = false;
+let audioFlag = true;
+let mouseFlag = false;
 
-function gameStart(){
-    gameOverFlag = false;
-    rankBox.style.display = "none";
-    gameFrame.style.display = "flex";
+let energyBarHeight = energy.offsetHeight;
+
+
+//효과음
+function audioPlayControll(audioType){
+    if(audioFlag){
+        audioType.play();
+
+        setTimeout(()=>{
+            audioType.pause();
+            audioType.currentTime = 0;
+        },1000)
+    }
+}
+
+function gamePlayButtonClick(){
+    gamePlay.style.display = "none";
     init()
     setTimeInterval()
-    energyBarInterval()
-    
-    //게임시작 중에는 scroll 안되게 막음
-    BodyScrollDisAble()
+    setEnergyInterval()
+}
+
+function resetButtonClick(){
+    init()
 }
 
 function init(){
+    playground.innerHTML = "";
     for(let i = 0 ; i < GAME_ROWS ; i++){
         const li = document.createElement("li");
         const ul = document.createElement("ul");
@@ -81,21 +107,12 @@ function init(){
     }
 }
 
-//효과음
-function audioPlayControll(audioType){
-    audioType.play();
-
-    setTimeout(()=>{
-        audioType.pause();
-        audioType.currentTime = 0;
-    },1000)
-}
-
 //시간 ++
 function setTimeInterval(){
     clearInterval(timeInterval);
     timeInterval = setInterval(()=>{
         time++;
+        timeText.innerText = time;
         setLevel()
     },1000)
 }
@@ -108,38 +125,146 @@ function setLevel(){
         }
     }
 }
-//duration 마다 energyBar 왼쪽으로 이동
-function energyBarInterval(){
+function setEnergyInterval(){
     clearInterval(energyInterval);
     energyInterval = setInterval(()=>{
-        energyImg.style.left = energyNumber+"px";
-        energyNumber --;
-        if(!imagechenged){
-            setEnergyColor(energyNumber);
+        energy.style.top = energyNumber+"px";
+        energyNumber ++;
+        if(!energyVibration){
+            setTimeout(()=>{
+                setEnergyColor(energyNumber);
+            },0)
         }
-        checkEnergyBox(energyNumber);
+        setTimeout(()=>{
+            checkEnergyBox(energyNumber);
+        })
     },duration)
 }
+
 //energy 의 color를 변경하여 얼마 안남았음을 알려줌
-function setEnergyColor(energy){
-    const energyAbs = Math.abs(energy);
-    if( Math.floor(energyBarWidth / 2)  < energyAbs){
-        energyImg.style.backgroundColor = "red";
-        // energyImg.src = "images/energy-red.png";
-        imagechenged = true;
+function setEnergyColor(energyNumber){
+    const energyAbs = Math.abs(energyNumber);
+    if( Math.floor(energyBarHeight / 2)  < energyAbs){
+        energy.style.backgroundColor = "red";
+        energyVibration = true;
         energyAnimation()
     }
 }
 //energy animation
 function energyAnimation(){
-    energyImg.classList.add("vibration");
+    energy.classList.add("vibration");
 }
 //energybar가 끝나면 게임종료
-function checkEnergyBox(energy){
-    if((energyBarWidth + energy) < 20){
+function checkEnergyBox(energyNumber){
+    if((energyBarHeight - energyNumber) < 10){
         clearInterval(energyInterval);
         clearInterval(timeInterval);
         showGameOverText();
+    }
+}
+
+//gameover
+function showGameOverText(){
+    audioPlayControll(gameover)
+
+    let prams = {
+        flag  :"rankSelect",
+        score : score,
+        time  : time,
+        count : buldCount,
+    }
+
+    $.ajax({
+        url:"/php/rank.php",
+        method:"POST",
+        data: prams,
+        erro:function(){
+            alert("error");
+        },
+        success:function(data){
+            if(data < 100){
+                rankJoinView.style.display = "flex";
+                rankTitle.innerText = (Number(data)+1)+"등 입니다.";
+            }else{
+                rankJoinView.style.display = "none";
+            }
+            overScoreText.innerText = `SCORE : ${score}`;
+            overTimeText.innerText = `TIME : ${time}s`;
+            playView.style.display = "none";
+            settingView.style.display = "none";
+            gamePlay.style.display = 'flex';
+            gameOverView.style.display = 'flex';
+            gameOverFlag = true;
+        }
+    });
+}
+
+function reSet(){
+    clearInterval(energyInterval);
+    clearInterval(timeInterval);
+    duration  = 40;
+    energyNumber = 0;
+    score = 0;
+    time  = 0;
+    succeseArr = [];
+    buldCount = 0;
+    gameOverFlag = false;
+    energyVibration = false;
+    energyBarHeight = energy.offsetHeight;
+    startX;
+    startY;
+    scoreText.innerText = 0;
+    timeText.innerText = 0;
+    energy.style.top = 0;
+    energy.style.backgroundColor = "rgb(255, 166, 0)";
+    energy.classList.remove("vibration");
+}
+
+function homeButtonClick(){
+    reSet()
+    settingView.style.display = "none";
+    gameOverView.style.display = "none";
+    gamePlay.style.display = "flex";
+    playView.style.display = "flex";
+}
+function setButtonClick(){
+    reSet()
+    playView.style.display = "none";
+    gameOverView.style.display = "none";
+    gamePlay.style.display = "flex";
+    settingView.style.display = "flex";
+}
+function settingEventClick(flag){
+    reSet()
+    if(flag == "A"){
+        if(bgmSetting.classList.contains("on")){
+            bgmSetting.classList.remove("on");
+            bgmSetting.style.backgroundImage = `url(../images/bgm_off.png)`;
+            bgm.play();
+        }else{
+            bgmSetting.classList.add("on");
+            bgmSetting.style.backgroundImage = `url(../images/bgm_on.png)`;
+            bgm.pause();
+            bgm.currentTime = 0;
+        }
+    }else if(flag == "B"){
+        if(audioSetting.classList.contains("on")){
+            audioSetting.classList.remove("on");
+            audioSetting.style.backgroundImage = `url(../images/audio_off.png)`;
+            audioFlag = true;
+        }else{
+            audioSetting.classList.add("on");
+            audioSetting.style.backgroundImage = `url(../images/audio_on.png)`;
+            audioFlag = false;
+        }
+    }else{
+        if(vibrationSetting.classList.contains("on")){
+            vibrationSetting.classList.remove("on");
+            vibrationSetting.style.backgroundImage = `url(../images/vibration_off.png)`;
+        }else{
+            vibrationSetting.classList.add("on");
+            vibrationSetting.style.backgroundImage = `url(../images/vibration_on.png)`;
+        }
     }
 }
 
@@ -157,6 +282,7 @@ function rangeSelect(x1, y1, x2, y2){
         
         if(x >= x1-20 && y >= y1-20 && x + w <= x2 && y + h <= y2){
             $this.addClass('focus-on');
+            window.navigator.vibrate(50);
         }else{
             $this.removeClass('focus-on');
         }
@@ -191,15 +317,16 @@ function checkMatch(){
             }else{
                 plusJumsu = 1;
             }
-            scoreNumber += (5*plusJumsu);
+            score += (5*plusJumsu);
+            buldCount++;
         })
-        scoreDisplay.innerText = scoreNumber;
+        scoreText.innerText = score;
         energyNumber = 0;
-        // energyImg.src = "images/energy.png";
-        energyImg.style.backgroundColor = "rgb(255, 166, 0)";
-        energyImg.classList.remove("vibration");
+        energy.style.top = 0;
+        energy.style.backgroundColor = "rgb(255, 166, 0)";
+        energy.classList.remove("vibration");
         imagechenged = false;
-        audioPlayControll(audioPlay)
+        audioPlayControll(audio)
     }else{
         setTimeout(()=>{
             resetSeleter()
@@ -218,17 +345,37 @@ function resetSeleter(){
     })
 }
 
-//gameover
-function showGameOverText(){
-    audioPlayControll(audioGameOver)
-    scoreText.innerText = `SCORE : ${scoreNumber}`;
-    timeText.innerText = `TIME : ${time}s`;
-    gameText.style.display = 'flex';
 
-    gameOverFlag = true;
-    //scroll 다시 가능하게 수정
-    BodyScrollAble()
-}
+//Event
+gamePlayButton.addEventListener("click",()=>{
+    gamePlayButtonClick()
+})
+resetButton.addEventListener("click",()=>{
+    resetButtonClick()
+})
+homeWhiteButton.addEventListener("click",()=>{
+    homeButtonClick()
+})
+homeButton.addEventListener("click",()=>{
+    homeButtonClick()
+})
+setWhiteButton.addEventListener("click",()=>{
+    setButtonClick()
+})
+setButton.addEventListener("click",()=>{
+    setButtonClick()
+})
+bgmSetting.addEventListener("click",()=>{
+    settingEventClick("A")
+})
+audioSetting.addEventListener("click",()=>{
+    settingEventClick("B")
+})
+vibrationSetting.addEventListener("click",()=>{
+    settingEventClick("C")
+})
+
+//=========pc===========================
 //mousedown
 function mouseDownEvent(e){
     mouseFlag = true;
@@ -280,27 +427,10 @@ function throttle(callback, limit = 500) {
         }
     }
 }
-//초기화
-function reSetBuldGame(){
-    //초기화 
-    scoreNumber = 0;
-    time = 0;
-    energyNumber = 0;
-    duration = 20;
-    mouseFlag = false;
-    imagechenged = false;
-    scoreDisplay.innerText = "0";
-    // energyImg.src = "images/energy.png";
-    energyImg.style.backgroundColor = "rgb(255, 166, 0)";
-    energyImg.classList.remove("vibration");
-    gameOverFlag = false;
-}
 
-//Event
-//=========pc===========================
+
 body.addEventListener("mousedown",(e)=>{
     if(gameOverFlag) return;
-
     mouseDownEvent(e)
 })
 
@@ -321,55 +451,8 @@ body.addEventListener("click",(e)=>{
     if(!mouseFlag) return false;
     mouseUpEvent()
 })
-//재생성
-resetBtn.addEventListener("click",()=>{
-    playground.innerHTML = "";
-    //재생성 버튼 클릭 할 시간을 좀 주기위함
-    energyNumber += 5;
-    init();
-})
-//다시시작
-restartButton.addEventListener("click",()=>{
-    playground.innerHTML = "";
-    gameText.style.display = "none";
 
-    reSetBuldGame()
-    gameStart()
-})
-
-//게임 시작
-gamePlayBtn.addEventListener("click",()=>{
-    gamePlay.style.display = "none";
-    reSetBuldGame()
-    gameStart()
-})
-
-//home 버튼
-homeBtn.addEventListener("click", ()=>{
-    energyNumber = 0;
-    clearInterval(energyInterval);
-    clearInterval(timeInterval);
-
-    gamePlay.style.display = "flex";
-    gameText.style.display = "none";
-
-    playground.innerHTML = "";
-    gameFrame.style.display = "flex";
-    rankBox.style.display = "none";
-})
-
-rankViewBtn.addEventListener("click",()=>{
-    gamePlay.style.display = "none";
-    gameFrame.style.display = "none";
-    rankBox.style.display = "flex";
-})
-
-rankReViewBtn.addEventListener("click",()=>{
-    gameText.style.display = "none";
-    gameFrame.style.display = "none";
-    rankBox.style.display = "flex";
-})
-
+//=========mobile===========================
 
 // [모바일 : 터치 시작 내부 함수 - (주의) 클릭 이벤트와 겹칠 수 있음]
 function handleStart(evt) {
@@ -423,16 +506,6 @@ function handleEnd(evt) {
 };
 
 
-
-//=========mobile===========================
 body.addEventListener("touchstart",handleStart,false);
 body.addEventListener("touchmove",handleMove,false);
 body.addEventListener("touchend",handleEnd,false);
-
-/* [body 영역 스크롤 관리 부분] */
-function BodyScrollDisAble(){
-    document.body.style.touchAction = "none"; //스크롤 막음
-};		
-function BodyScrollAble(){
-    document.body.style.touchAction = "auto"; //스크롤 허용
-};
