@@ -5,6 +5,7 @@
 }
 
 body {
+    width: 100%;
     -webkit-user-select:none; 
     -moz-user-select:none; 
     -ms-user-select:none; 
@@ -17,12 +18,16 @@ ul{
 }
 
 .wrapper{
+    position: relative;
+    top: 50px;
     display: flex;
     justify-content: center;
     align-content: center;
-    width: 100vw;
-    height: 100vh;
-    padding: 2% 0;
+    width: 740px;
+    height: 360px;
+    padding: 20px 0;
+    margin: 0 auto;
+
     background-color: #94c697;
 }
 
@@ -30,7 +35,7 @@ ul{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 15vw;
+    width: 80px;
     margin: 0 auto;
     text-align: center;
 }
@@ -46,8 +51,8 @@ ul{
 }
 .energy-box{
     margin: 0 auto;
-    width: 5vh;
-    height: 75vh;    
+    width: 15px;
+    height: 250px;    
     border-radius: 27px;
     background-color: #595959;
     padding: 1vw 0;
@@ -57,8 +62,8 @@ ul{
     position: relative;
     top:0;
     margin: 0 auto;
-    width: 3vh;
-    height: 75vh;    
+    width: 8px;
+    height: 250px;    
     border-radius: 27px;
     background-color: rgb(255, 166, 0);
 }
@@ -88,18 +93,18 @@ ul{
       }
 }
 .set-button img{
-    width: 5vw;
-    height: 5vw;
-    margin: 1vh;
-    padding: 0.5vw;
+    width: 35px;
+    height: 35px;
+    margin: 3px;
+    padding: 5px;
 }
 
 .game-frame{
     width: 100%;
     height: 100%;
     opacity: 0.82;
-    border-radius: 2vw;
-    padding: 2vw;
+    border-radius: 15px;
+    padding: 10px;
     background-color: #f5f5f5;
 }
 
@@ -119,15 +124,15 @@ ul{
 }
 .playground > ul > li {
     width: 100%;
-    height: 6.5vh;
+    height: 30px;
 }
 .playground > ul > li > ul{
     display : flex;
     justify-content: space-between;
 }
 .playground > ul > li > ul > li{
-    width: 6.5vh;
-    height: 6.5vh;
+    width: 25px;
+    height: 25px;
     /* outline: 1px solid #ccc; */
     border: 1px solid #ccc;
     border-radius: 50%;
@@ -141,8 +146,9 @@ ul{
     align-items: center;
     flex-direction: column;
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 740px;
+    height: 360px;
+    margin: 0 auto;
     background: rgba(0,0,0,0.7);
     left: 0;
     top: 0;
@@ -154,9 +160,11 @@ ul{
     padding: 0.3vw 0;
 } */
 .game-buld img{
-    width: 6vw;
-    height: 6vw;
+    width: 50px;
+    height: 50px;
     margin: 0 auto;
+    top: 10px;
+    position: relative;
 }
 .game-title,.gameover-title{
     font-family: GabiaSolmee;
@@ -164,13 +172,13 @@ ul{
     font-stretch: normal;
     font-style: normal;
     line-height: 1.23;
-    margin: 1vw;
+    margin: 10px;
     letter-spacing: -5.84px;
     color: #fff;   
 }
 .play-button > img{
-    width: 30vw;
-    height: 10vw;
+    width: 250px;
+    height: 80px;
     background-color: #cbcbcb;
     font-family: GabiaSolmee;
     font-size: 2rem;
@@ -179,10 +187,10 @@ ul{
     display: flex;
 }
 .set-button-row img{
-    width: 5vw;
-    height: 5vw;
-    margin: 2vh;
-    padding: 0.5vw;
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+    padding: 5px;
 }
 .play-view{
     display: flex;
@@ -194,29 +202,29 @@ ul{
     display: none;
     justify-content: space-around;
     align-items: center;
-    width: 40vw;
-    height: 15vw;
-    margin: 2vw;
+    width: 300px;
+    height: 120px;
+    margin: 5px;
     background-color: #ebebeb;
 }
 .bgm-setting{
-    width: 10vw;
-    height: 10vw;
+    width: 80px;
+    height: 80px;
     background-image: url("../images/bgm_off.png");
     background-size: contain;
     background-repeat: no-repeat;
 }
 .audio-setting{
-    width: 10vw;
-    height: 10vw;
+    width: 80px;
+    height: 80px;
     background-image: url("../images/audio_off.png");
     background-size: contain;
     background-repeat: no-repeat;
 
 }
 .vibration-setting{
-    width: 10vw;
-    height: 10vw;
+    width: 80px;
+    height: 80px;
     background-image: url("../images/vibration_off.png");
     background-size: contain;
     background-repeat: no-repeat;
@@ -224,7 +232,7 @@ ul{
 }
 .gameover-view{
     display: none;
-    width: 30vw;
+    width: 230px;
     justify-content: center;
     align-items: center;
     flex-direction:column;
@@ -245,7 +253,7 @@ ul{
     letter-spacing: -2.33px;
     color: #fff;
     font-size: 1.3rem;
-    margin-bottom:1vw;
+    margin-bottom:10px;
 }
 .rank-join-view{
     width: 100%;
@@ -259,7 +267,7 @@ ul{
     font-size: 1rem;
     width: 100%;
     text-align: center;
-    margin:0.5vw 0;
+    margin:3px 0;
     background-color: #ea5e02;
 }
 .rank-join-box{
@@ -268,13 +276,13 @@ ul{
     justify-content: space-between;
 }
 .rank-join-view >div input{
-    width: 18vw;
-    height: 5vw;
+    width: 65%;
+    height: 40px;
     border:0;
 }
 .rank-join-view >div button{
-    width: 10vw;
-    height: 5vw;
+    width: 30%;
+    height: 40px;
     line-height: 1.23;
     letter-spacing: -1.58px;
     font-family: GabiaSolmee;
@@ -283,10 +291,10 @@ ul{
     color: #fff;
 }
 .replay-button{
-    margin-top: 1vw;
+    margin-top: 5px;
     width: 100%;
     text-align: center;
-    padding: 1vw 0;
+    padding: 10px 0;
     font-size: 1.5rem;
     font-weight: normal;
     font-stretch: normal;
@@ -319,4 +327,3 @@ ul{
     position: relative;
     opacity: 0;
 }
-

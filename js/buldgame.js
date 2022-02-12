@@ -35,6 +35,9 @@ const gameover = document.getElementById("gameover");
 //rank
 const rankJoinView = document.querySelector(".rank-join-view");
 
+//divice check
+const diviceFlag = document.getElementById("divice-flag").value;
+
 //Setting 
 const GAME_ROWS = 10;
 const GAME_COLS = 20;
@@ -59,21 +62,38 @@ let buldCount = 0;
 let gameOverFlag = false;
 let energyVibration = false;
 let audioFlag = true;
+let vibrationFlag = true;
 let mouseFlag = false;
 
-let energyBarHeight = energy.offsetHeight;
+let vhOrPx = "";
+let vibrationStartNum = "";
+let gameOverNumber = "";
+let energySpeed = "";
 
+if(diviceFlag === "pc"){
+    vhOrPx = "px";
+    vibrationStartNum = 100;
+    gameOverNumber = 250;
+    energySpeed = 1.3;
+}else{
+    vhOrPx = "vh";
+    vibrationStartNum = 50;
+    gameOverNumber = 75;
+    energySpeed = 0.4;
+}
 
 //효과음
 function audioPlayControll(audioType){
+    if(vibrationFlag) window.navigator.vibrate(50);
+
     if(audioFlag){
         audioType.play();
-
         setTimeout(()=>{
             audioType.pause();
             audioType.currentTime = 0;
         },1000)
     }
+
 }
 
 function gamePlayButtonClick(){
@@ -121,15 +141,15 @@ function setLevel(){
     if(duration > 2){
         if(time % 20 === 0){
             duration--;
-            energyBarInterval()
+            setEnergyInterval()
         }
     }
 }
 function setEnergyInterval(){
     clearInterval(energyInterval);
     energyInterval = setInterval(()=>{
-        energy.style.top = energyNumber+"px";
-        energyNumber ++;
+        energy.style.top = energyNumber+vhOrPx;
+        energyNumber += energySpeed;
         if(!energyVibration){
             setTimeout(()=>{
                 setEnergyColor(energyNumber);
@@ -143,8 +163,7 @@ function setEnergyInterval(){
 
 //energy 의 color를 변경하여 얼마 안남았음을 알려줌
 function setEnergyColor(energyNumber){
-    const energyAbs = Math.abs(energyNumber);
-    if( Math.floor(energyBarHeight / 2)  < energyAbs){
+    if( energyNumber > vibrationStartNum){
         energy.style.backgroundColor = "red";
         energyVibration = true;
         energyAnimation()
@@ -156,7 +175,7 @@ function energyAnimation(){
 }
 //energybar가 끝나면 게임종료
 function checkEnergyBox(energyNumber){
-    if((energyBarHeight - energyNumber) < 10){
+    if( energyNumber > gameOverNumber ){
         clearInterval(energyInterval);
         clearInterval(timeInterval);
         showGameOverText();
@@ -174,20 +193,22 @@ function showGameOverText(){
         count : buldCount,
     }
 
-    $.ajax({
-        url:"/php/rank.php",
-        method:"POST",
-        data: prams,
-        erro:function(){
-            alert("error");
-        },
-        success:function(data){
-            if(data < 100){
+    // $.ajax({
+    //     url:"/php/rank.php",
+    //     method:"POST",
+    //     data: prams,
+    //     erro:function(){
+    //         alert("error");
+    //     },
+    //     success:function(data){
+    //         if(data < 100){
+    //             rankJoinView.style.display = "flex";
+    //             rankTitle.innerText = (Number(data)+1)+"등 입니다.";
+    //         }else{
+    //             rankJoinView.style.display = "none";
+    //         }
+                rankTitle.innerText = "1 등 입니다.";
                 rankJoinView.style.display = "flex";
-                rankTitle.innerText = (Number(data)+1)+"등 입니다.";
-            }else{
-                rankJoinView.style.display = "none";
-            }
             overScoreText.innerText = `SCORE : ${score}`;
             overTimeText.innerText = `TIME : ${time}s`;
             playView.style.display = "none";
@@ -195,8 +216,8 @@ function showGameOverText(){
             gamePlay.style.display = 'flex';
             gameOverView.style.display = 'flex';
             gameOverFlag = true;
-        }
-    });
+    //     }
+    // });
 }
 
 function reSet(){
@@ -210,7 +231,6 @@ function reSet(){
     buldCount = 0;
     gameOverFlag = false;
     energyVibration = false;
-    energyBarHeight = energy.offsetHeight;
     startX;
     startY;
     scoreText.innerText = 0;
@@ -261,9 +281,11 @@ function settingEventClick(flag){
         if(vibrationSetting.classList.contains("on")){
             vibrationSetting.classList.remove("on");
             vibrationSetting.style.backgroundImage = `url(../images/vibration_off.png)`;
+            vibrationFlag = true;
         }else{
             vibrationSetting.classList.add("on");
             vibrationSetting.style.backgroundImage = `url(../images/vibration_on.png)`;
+            vibrationFlag = false;
         }
     }
 }
@@ -282,7 +304,6 @@ function rangeSelect(x1, y1, x2, y2){
         
         if(x >= x1-20 && y >= y1-20 && x + w <= x2 && y + h <= y2){
             $this.addClass('focus-on');
-            window.navigator.vibrate(50);
         }else{
             $this.removeClass('focus-on');
         }
